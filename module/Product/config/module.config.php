@@ -3,6 +3,8 @@
 namespace Product;
 
 use Laminas\Router\Http\Segment;
+use Product\Model\Product;
+use Product\Form\ProductFieldset;
 
 return [
     'router' => [
@@ -27,6 +29,12 @@ return [
     'view_manager' => [
         'template_path_stack' => [
             'product' => __DIR__ . '/../view',
+        ],
+    ],
+
+    'form_elements' => [
+        'factories' => [
+            Product\Form\ProductFieldset::class => Product\Form\ProductFieldsetFactory::class,
         ],
     ],
 ];

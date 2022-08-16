@@ -26,13 +26,8 @@ class ProductForm extends Form
             'name' => 'category_id',
             'type' => Element\Select::class,
             'options' => [
-                'label' => 'Which is your mother tongue?',
-                'value_options' => [
-                    '0' => 'French',
-                    '1' => 'English',
-                    '2' => 'Japanese',
-                    '3' => 'Chinese',
-                ],
+                'label' => 'category_id',
+                'value_options' => [0, 1, 2, 3, 4, 5, 6]
             ],
         ]);
         $this->add([

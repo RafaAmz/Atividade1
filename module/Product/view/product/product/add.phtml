@@ -4,6 +4,7 @@ $this->headTitle($title);
 ?>
 <h1><?= $this->escapeHtml($title) ?></h1>
 <?php
+
 $product = $form->get('category_id');
 $product->setAttribute('class', 'form-control');
 $product->setAttribute('placeholder', 'Product category_id');
@@ -18,6 +19,11 @@ $submit->setAttribute('class', 'btn btn-primary');
 $form->setAttribute('action', $this->url('product', ['action' => 'add']));
 $form->prepare();
 
+/* com select
+echo $this->form()->openTag($form);
+echo $this->formCollection($form->get('product'));
+echo $this->form()->closeTag();
+*/
 echo $this->form()->openTag($form);
 ?>
 <?php  ?>
@@ -37,3 +43,4 @@ echo $this->form()->openTag($form);
 echo $this->formSubmit($submit);
 echo $this->formHidden($form->get('id'));
 echo $this->form()->closeTag();
+
