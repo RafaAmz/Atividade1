@@ -2,14 +2,20 @@
 
 namespace Product\Form;
 
-use Laminas\Form\Form;
 use Laminas\Form\Element;
+use Laminas\Form\Form;
+use Category\Model\CategoryTable;
 
 class ProductForm extends Form
 {
-    public function __construct($name = null)
+    protected $categories;
+
+    public function __construct($categories = [])
     {
-        parent::__construct('product');
+        $this->categories = $categories;
+        parent::__construct();
+
+        $this->setAttribute('method', 'post');
 
         $this->add([
             'name' => 'id',
@@ -22,14 +28,20 @@ class ProductForm extends Form
                 'label' => 'Name',
             ],
         ]);
+
         $this->add([
-            'name' => 'category_id',
             'type' => Element\Select::class,
+            'name' => 'category_id',
             'options' => [
-                'label' => 'category_id',
-                'value_options' => [0, 1, 2, 3, 4, 5, 6]
+                'label' => 'Categories',
+                'value_options' => $this->categories
             ],
+            'attributes' => [
+                'required' => true,
+                'class' => 'custom-select'
+            ]
         ]);
+
         $this->add([
             'name' => 'submit',
             'type' => 'submit',

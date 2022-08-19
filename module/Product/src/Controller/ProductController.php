@@ -12,22 +12,28 @@ class ProductController extends AbstractActionController
 {
 
     private $table;
+    private $productForm;
+    private $categoriesArray;
 
-    public function __construct(ProductTable $table)
+    public function __construct(ProductTable $table, ProductForm $productForm, $categoriesArray)
     {
         $this->table = $table;
+        $this->productForm = $productForm;
+        $this->categoriesArray = $categoriesArray;
     }
 
     public function indexAction()
     {
-        return new ViewModel([
-            'products' => $this->table->fetchAll(),
-        ]);
+        $viewModel = new ViewModel();
+        $viewModel->setVariable('products', $this->table->fetchAll());
+        $viewModel->setVariable('categoriesArray', $this->categoriesArray);
+
+        return $viewModel;
     }
 
     public function addAction()
     {
-        $form = new ProductForm();
+        $form = $this->productForm;
         $form->get('submit')->setValue('Add');
 
         $request = $this->getRequest();
@@ -63,7 +69,7 @@ class ProductController extends AbstractActionController
             return $this->redirect()->toRoute('product', ['action' => 'index']);
         }
 
-        $form = new ProductForm();
+        $form = $this->productForm;
         $form->bind($product);
         $form->get('submit')->setAttribute('value', 'Edit');
 

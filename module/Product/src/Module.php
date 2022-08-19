@@ -2,10 +2,13 @@
 
 namespace Product;
 
+use Category\Controller\CategoryController;
 use Laminas\Db\Adapter\AdapterInterface;
 use Laminas\Db\ResultSet\ResultSet;
 use Laminas\Db\TableGateway\TableGateway;
 use Laminas\ModuleManager\Feature\ConfigProviderInterface;
+use Category\Model\CategoryTable;
+use Product\Form\ProductForm;
 
 class Module implements ConfigProviderInterface
 {
@@ -28,6 +31,15 @@ class Module implements ConfigProviderInterface
                     $resultSetPrototype->setArrayObjectPrototype(new Model\Product());
                     return new TableGateway('product', $dbAdapter, null, $resultSetPrototype);
                 },
+                Form\ProductForm::class => function ($container) {
+                    $categoryTable = $container->get(CategoryTable::class);
+                    $categories = $categoryTable->fetchAll();
+                    $categoriesArray = [];
+                    foreach($categories as $categorie){
+                        $categoriesArray[$categorie->id] = $categorie->name;
+                    };
+                    return new Form\ProductForm($categoriesArray);
+                },
             ],
         ];
     }
@@ -37,8 +49,17 @@ class Module implements ConfigProviderInterface
         return [
             'factories' => [
                 Controller\ProductController::class => function ($container) {
+                    $categoryTable = $container->get(CategoryTable::class);
+                    $categories = $categoryTable->fetchAll();
+                    $categoriesArray = [];
+                    foreach($categories as $categorie){
+                        $categoriesArray[$categorie->id] = $categorie->name;
+                    };
+
                     return new Controller\ProductController(
-                        $container->get(Model\ProductTable::class)
+                        $container->get(Model\ProductTable::class),
+                        $container->get(Form\ProductForm::class),
+                        $categoriesArray
                     );
                 },
             ],

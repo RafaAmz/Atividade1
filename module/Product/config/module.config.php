@@ -5,6 +5,7 @@ namespace Product;
 use Laminas\Router\Http\Segment;
 use Product\Model\Product;
 use Product\Form\ProductFieldset;
+use Product\Form\ProductFieldsetFactory;
 
 return [
     'router' => [
@@ -34,7 +35,7 @@ return [
 
     'form_elements' => [
         'factories' => [
-            Product\Form\ProductFieldset::class => Product\Form\ProductFieldsetFactory::class,
+            ProductFieldset::class => ProductFieldsetFactory::class,
         ],
     ],
 ];

@@ -17,7 +17,7 @@ class ProductFieldset extends Fieldset
             ->setOptions([
                 $selectField->setLabel('category_id'),
                 $selectField->setEmptyOption('Select...'),
-                $selectField->setValueOptions($categories)
+                $selectField->setValueOptions($this->$categories)
             ])
             ->setAttributes([
                 'required' => true,

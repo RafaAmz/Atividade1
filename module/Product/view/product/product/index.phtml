@@ -12,12 +12,19 @@ $this->headTitle($title);
     <tr>
         <th>Name</th>
         <th>category_id</th>
+        <th>Category name</th>
         <th>&nbsp;</th>
     </tr>
     <?php foreach ($products as $product) : ?>
         <tr>
             <td><?= $this->escapeHtml($product->name) ?></td>
             <td><?= $this->escapeHtml($product->category_id) ?></td>
+            <?php foreach ($categoriesArray as $key => $value) : ?>
+            <?php if($key == $product->category_id) :?>
+                <td><?= $this->escapeHtml($value) ?></td>
+
+            <?php endif; ?>
+     <?php endforeach; ?>
             <td>
                 <a href="<?= $this->url('product', ['action' => 'edit', 'id' => $product->id]) ?>">Edit</a>
                 <a href="<?= $this->url('product', ['action' => 'delete', 'id' => $product->id]) ?>">Delete</a>
